@@ -1,9 +1,10 @@
 {
+  "id": "kr-shokyu1",
   "name": "韓国語初級完成編１",
   "short_name": "初級完成編１",
   "description": "韓国語初級完成編１の文法練習",
   "start_url": "shokyu1.html",
-  "scope": "./",
+  "scope": "shokyu1.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f7f3ec",
