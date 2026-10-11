@@ -1,0 +1,14 @@
+{
+  "id": "kr-shokyu2",
+  "name": "韓国語初級2",
+  "short_name": "韓国語初級2",
+  "start_url": "shokyu2.html",
+  "scope": "shokyu2.html",
+  "display": "standalone",
+  "background_color": "#eee9df",
+  "theme_color": "#a6321f",
+  "icons": [
+    { "src": "icon-han-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-han-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
