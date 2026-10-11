@@ -34,18 +34,22 @@
     return c.toDataURL('image/png');
   }
 
+  // このページ自身のURL（クエリ・ハッシュ無し）
   var pageUrl = location.href.split('#')[0].split('?')[0];
-  var scopeUrl = pageUrl.substring(0, pageUrl.lastIndexOf('/') + 1);
 
   var icon192 = makeIcon(192);
   var icon512 = makeIcon(512);
 
   var manifest = {
+    // ページごとに別のアプリとして区別するための識別子
+    id: location.pathname,
     name: 'ハングル3級単語帳',
     short_name: '한 単語帳',
     description: 'ハングル検定3級の単語帳',
     start_url: pageUrl,
-    scope: scopeUrl,
+    // フォルダ全体ではなく、このページ単体をscopeにする
+    // （同じフォルダの他のHTMLが「インストール済み」扱いされるのを防ぐ）
+    scope: pageUrl,
     display: 'standalone',
     orientation: 'portrait',
     background_color: '#eee9df',
@@ -70,7 +74,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-
 
 
 
