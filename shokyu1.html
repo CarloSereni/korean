@@ -5,12 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>韓国語初級完成編１</title>
 
-<!-- PWA: ホーム画面に追加すると、アプリのようにアイコンから全画面で起動できます -->
-<link rel="manifest" id="manifest-placeholder" href="">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="韓国語初級完成編１">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27><defs><linearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27><stop offset=%270%27 stop-color=%27%23c33%27/><stop offset=%271%27 stop-color=%27%2336c%27/></linearGradient></defs><rect width=%27200%27 height=%27200%27 fill=%27url(%23g)%27 rx=%2740%27/><circle cx=%27100%27 cy=%27100%27 r=%2772%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%273%27 opacity=%27.6%27/><text x=%2750%25%27 y=%2754%25%27 font-size=%27100%27 font-weight=%27900%27 fill=%27%23fff%27 text-anchor=%27middle%27 dominant-baseline=%27middle%27>한</text></svg>">
+  <!-- === PWA ホーム画面追加機能（「한」アイコン）=== -->
+  <!-- href は下のスクリプトが動的に生成して差し込む（空のままだとChromeが「アプリ」と認識せず、ショートカットしか作れない） -->
+  <link rel="manifest" id="manifest-placeholder" href="">
+
+  <!-- iOS対応 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ハングル3級単語帳">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" id="apple-touch-icon-placeholder" href="">
+
+<script>
+/* ==== PWAマニフェストとアイコン（「한」）を動的に生成 ==== */
+(function () {
+  function makeIcon(size) {
+    var c = document.createElement('canvas');
+    c.width = size; c.height = size;
+    var g = c.getContext('2d');
+    g.fillStyle = '#a6321f';
+    g.fillRect(0, 0, size, size);
+    g.fillStyle = '#ffffff';
+    g.font = 'bold ' + Math.floor(size * 0.58) + 'px "Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR","Noto Sans JP",sans-serif';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.fillText('\uD55C', size / 2, size / 2 + size * 0.03); // 한
+    return c.toDataURL('image/png');
+  }
+
+  // このページ自身のURL（クエリ・ハッシュ無し）
+  var pageUrl = location.href.split('#')[0].split('?')[0];
+
+  var icon192 = makeIcon(192);
+  var icon512 = makeIcon(512);
+
+  var manifest = {
+    // ページごとに別のアプリとして区別するための識別子
+    id: location.pathname,
+    name: 'ハングル3級単語帳',
+    short_name: '한 単語帳',
+    description: 'ハングル検定3級の単語帳',
+    start_url: pageUrl,
+    // フォルダ全体ではなく、このページ単体をscopeにする
+    // （同じフォルダの他のHTMLが「インストール済み」扱いされるのを防ぐ）
+    scope: pageUrl,
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#eee9df',
+    theme_color: '#a6321f',
+    icons: [
+      { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+    ]
+  };
+
+  var blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+  document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(blob));
+  document.getElementById('apple-touch-icon-placeholder').setAttribute('href', icon192);
+})();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) {
+    reg.update();
+  }).catch(function (e) {
+    console.warn('service worker登録失敗', e);
+  });
+}
+</script>
+
+
+
 
 <style>
   :root{
